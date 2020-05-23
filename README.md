@@ -5,7 +5,8 @@
 * Async pull and display of all configured RSS feed items
 
 ---
-### Nuget packages addition using CLI that are used in the project
+### Dotnet CLI command used for project and packages handling
+* Solution: ```dotnet new webapi -n RssFeedAggregator```
 * MSTest: ```dotnet add package MSTest.TestFramework --version 2.1.1```
 
 ---
