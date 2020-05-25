@@ -12,7 +12,7 @@
 * Run specific project in solution: ```dotnet run <projectName>```
 * Add test framework MSTest: ```dotnet add package MSTest.TestFramework --version 2.1.1```
 * Add project reference for testing to test project (P2P): ```dotnet add reference <reference_project_path>```
-* Run tests: ```dotnet tests```
+* Run tests: ```dotnet test```
 
 ---
 README.md syntax: mark down
