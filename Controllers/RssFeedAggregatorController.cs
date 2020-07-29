@@ -24,30 +24,39 @@ namespace RssFeedAggregator.Controllers
             return Ok();
         }
 
-        [HttpPost]
-        public IActionResult InserFeed()
+        [HttpPost("feed")]
+        public IActionResult AddFeed([FromBody] RssFeed model)
         {
-            var feed = new RssFeed() 
+           if (model != null )
             {
-                Title = "Test feed nr 1",
-                Description = "Test feed nr 1 description",
-                Items = new List<RssFeedItem>() 
-                {
-                    new RssFeedItem() 
-                    {
-                        Date = new System.DateTime(2020,05,26),
-                        Title = "Rss item nr 1",
-                        Description = "Rss item desc nr 1",
-                        Url = "http://localhost:5000/IsAlive"
-                    }
-                }
-            };
-
-            _context.Add(feed);
+            _context.Add(model);
             _context.SaveChanges();
 
-            return Ok();
+            return Ok(model);
+            }
+            
+            return NoContent();
+        }
 
+        [HttpPost("feed/{id}")]
+        public IActionResult AddItem2Feed([FromBody] RssFeedItem item, int id)
+        {
+           if (id != 0 )
+            {
+                var  model = _context.RssFeeds.Where(p => p.Id == id).Include(feedItems => feedItems.Items).First() as RssFeed;
+                
+                if(model.Items != null ) 
+                {
+                    model.Items.Add(item);
+                }
+
+                _context.Update(model);
+                _context.SaveChanges();
+
+            return Ok(model);
+            }
+            
+            return NoContent();
         }
 
         [HttpGet("GetFeeds")]
