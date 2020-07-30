@@ -2,10 +2,8 @@ using System;
 
 namespace RssFeedAggregator.Domain
 {
-    public class RssFeedItem
-    {
-        public int Id {get;set;}
-        
+    public class RssFeedItem : ModelBase
+    {   
         public DateTime Date { get; set; }
 
         public string Title { get; set; }

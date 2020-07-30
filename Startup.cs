@@ -5,6 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 
+using RssFeedAggregator.Domain;
+using RssFeedAggregator.Interfaces;
+using RssFeedAggregator.Managers;
+using RssFeedAggregator.Repositories;
+
 
 namespace RssFeedAggregator
 {
@@ -22,6 +27,10 @@ namespace RssFeedAggregator
         {
             services.AddControllers();
             services.AddDbContext<RssFeedAggregatorDbContext> ( opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<ISqlManager<RssFeed>, SqlManager>();
+            services.AddScoped<ISqlRepository<RssFeed>, SqlRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
