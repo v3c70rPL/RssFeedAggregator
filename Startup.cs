@@ -28,9 +28,8 @@ namespace RssFeedAggregator
             services.AddControllers();
             services.AddDbContext<RssFeedAggregatorDbContext> ( opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<ISqlManager<RssFeed>, SqlManager>();
-            services.AddScoped<ISqlRepository<RssFeed>, SqlRepository>();
-
+            services.AddScoped<ISqlManager<RssFeed>, SqlManager<RssFeed>>();
+            services.AddScoped<ISqlRepository<RssFeed>, SqlRepository<RssFeed>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

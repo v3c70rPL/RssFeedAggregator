@@ -31,19 +31,12 @@ namespace RssFeedAggregator.Controllers
         //     return Ok();
         // }
 
-        // [HttpPost("feed")]
-        // public ActionResult AddFeed([FromBody] RssFeed model)
-        // {
-        //    if (model != null )
-        //     {
-        //     _context.Add(model);
-        //     _context.SaveChanges();
-
-        //     return Ok(model);
-        //     }
-            
-        //     return NoContent();
-        // }
+        [HttpPost("feed")]
+        public async Task<ActionResult<RssFeed>> AddFeed([FromBody] RssFeed model)
+        {
+           var feed = await Manager.Add(model);
+           return feed;
+        }
 
         // [HttpPost("feed/{id}")]
         // public ActionResult AddItem2Feed([FromBody] RssFeedItem item, int id)
@@ -102,6 +95,13 @@ namespace RssFeedAggregator.Controllers
         //     return NoContent();
         // }
 
+        [HttpDelete("feed/{id}")]
+        public async Task<ActionResult<RssFeed>> RemoveFeed(int id)
+        {
+            var result = await Manager.Delete(id);
+            return result;
+        }
+
         // [HttpDelete("feed/{id}/item/{itemId}")]
         // public ActionResult<RssFeedItem> DeleteFeedItem(int id, int itemId)
         // {
@@ -124,6 +124,24 @@ namespace RssFeedAggregator.Controllers
         //     return NoContent();
         // }
         #endregion
+
+        [HttpGet("isAlive")]
+        public ActionResult<bool> IsAlive()
+        {
+            return true;
+        }
+
+        [HttpGet("GetExample")]
+        public ActionResult<RssFeed> GetExample()
+        {
+            var model = new RssFeed();
+            model.Items = new List<RssFeedItem>()
+            {
+                new RssFeedItem()
+            };
+
+            return model;
+        }
     }
 }
 

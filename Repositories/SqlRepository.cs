@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace RssFeedAggregator.Repositories
 {
-    // TODO: why <T> is applied to interface ?
-    public class SqlRepository : ISqlRepository<RssFeed>
+    public class SqlRepository<T> : ISqlRepository<T>
+    where T : RssFeed
     {
         protected RssFeedAggregatorDbContext DbContext {get; private set;}
 
@@ -18,41 +18,60 @@ namespace RssFeedAggregator.Repositories
             DbContext = context;
         }   
 
-        public RssFeed Add(RssFeed model)
+        public T Add(T model)
+        {
+            var result = DbContext.Add(model);
+            return result.Entity;
+        }
+
+        public T Update(T model)
         {
             throw new NotImplementedException();
         }
 
-        public RssFeed Update(RssFeed model)
+        public T Delete(int id)
+        {
+            var model = DbContext.RssFeeds.Where(p => p.Id == id).Include(p => p.Items).FirstOrDefault();
+            foreach(var item in model.Items)
+            {
+                // TODO: add error handling
+                DbContext.Remove(item);
+            }
+
+            // TODO: add error handling
+            DbContext.Remove(model);
+            
+            return model as T;
+        }
+
+        public T GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public RssFeed GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<RssFeed> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(int id)
         {
             var query = DbContext.RssFeeds.Where(p => p.Id == id).Include(i => i.Items);
-            return await query.FirstOrDefaultAsync(p => p.Id == id);
+            return await query.FirstOrDefaultAsync(p => p.Id == id) as T;
         }
 
-        public async Task<IEnumerable<RssFeed>> GetAllAsync()
+        // TODO: refactor so there is no additional reiteration on the list
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            var query = DbContext.RssFeeds.Include(i => i.Items);
-            return await query.ToListAsync();
+            var queryResult = await DbContext.RssFeeds.Include(p => p.Items).ToListAsync();
+            var result = new List<T>();
+            
+            foreach(var feed in queryResult)
+            {
+                result.Add(feed as T);
+            }
+
+            return result;
         }
 
-        public Task<int> SaveChangesAsync()
+        public async Task<int> SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            return await DbContext.SaveChangesAsync();
         }
 
     }

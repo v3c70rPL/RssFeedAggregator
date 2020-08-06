@@ -8,7 +8,7 @@ namespace RssFeedAggregator.Interfaces
     {
         T Add(T model);
         T Update(T model);
-        void Delete(int id);
+        T Delete(int id);
         T GetById(int id);
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();

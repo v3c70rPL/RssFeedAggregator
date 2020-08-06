@@ -6,39 +6,46 @@ using System.Collections.Generic;
 
 namespace RssFeedAggregator.Managers
 {
-    public class SqlManager : ISqlManager<RssFeed>
+    public class SqlManager<T> : ISqlManager<T>
+    where T : RssFeed
     {
-        protected ISqlRepository<RssFeed> Repository {get; private set;}
+        protected ISqlRepository<T> Repository {get; private set;}
 
-        public SqlManager(ISqlRepository<RssFeed> repository)
+        public SqlManager(ISqlRepository<T> repository)
         {
             Repository = repository;
         }
 
-        public async Task<RssFeed> Get(int id)
+        public async Task<T> Get(int id)
         {
             var feed = await Repository.GetByIdAsync(id);
             return feed;
 
         }
-        public async Task<IEnumerable<RssFeed>> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
             var feeds = await Repository.GetAllAsync();
             return feeds;
         }
-        public async Task<RssFeed> Add(RssFeed model)
+        public async Task<T> Add(T model)
+        {
+            var result = Repository.Add(model);
+            await Repository.SaveChangesAsync();
+
+            return result; 
+        }
+        public async Task<T> Update(T model)
         {
             throw new NotImplementedException();
         }
-        public async Task<RssFeed> Update(RssFeed model)
+        public async Task<T> Delete(int id)
         {
-            throw new NotImplementedException();
-        }
-        public async Task Delete(RssFeed model)
-        {
-            throw new NotImplementedException();
+            var result = Repository.Delete(id);
+            await Repository.SaveChangesAsync();
+
+            return result;
         }      
-        public async Task<bool> IsAlive()
+        public bool IsAlive()
         {
             return true;
         }

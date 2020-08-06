@@ -11,7 +11,7 @@ namespace RssFeedAggregator.Interfaces
         Task<IEnumerable<T>> GetAll();
         Task<T> Add(T model);
         Task<T> Update(T model);
-        Task Delete(T model);
-        Task<bool> IsAlive();
+        Task<T> Delete(int id);
+        bool IsAlive();
     }
 }

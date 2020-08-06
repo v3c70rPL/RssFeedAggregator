@@ -32,6 +32,7 @@ namespace RssFeedAggregator.Migrations
                     Description = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true),
                     IsImportant = table.Column<bool>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     RssFeedId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

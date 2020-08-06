@@ -10,7 +10,7 @@ using RssFeedAggregator;
 namespace RssFeedAggregator.Migrations
 {
     [DbContext(typeof(RssFeedAggregatorDbContext))]
-    [Migration("20200605200745_Initial")]
+    [Migration("20200806195547_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,6 +51,9 @@ namespace RssFeedAggregator.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsImportant")
                         .HasColumnType("bit");
