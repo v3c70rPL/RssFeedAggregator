@@ -5,6 +5,13 @@
 * Async pull and display of all configured RSS feed items
 
 ---
+## WORK IN PROGRESS
+* search logic
+* filter logic
+* feed tracking
+* multi-threading
+
+---
 ### Dotnet CLI command used for project and packages handling
 * Create project: ```dotnet new webapi -n RssFeedAggregator```
 * Build project: ```dotnet build```
