@@ -10,6 +10,8 @@
 * filter logic
 * feed tracking
 * multi-threading
+* FluentAPI integration
+* unit tests
 
 ---
 ### Dotnet CLI command used for project and packages handling
