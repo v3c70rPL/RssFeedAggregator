@@ -26,7 +26,18 @@ namespace RssFeedAggregator.Repositories
 
         public T Update(T model)
         {
-            throw new NotImplementedException();
+            foreach(var item in model.Items)
+            {
+                if(item.IsDeleted)
+                {
+                    DbContext.Remove(item);
+                }
+            }
+
+            var result = DbContext.Update(model);
+
+            return result.Entity;
+          
         }
 
         public T Delete(int id)

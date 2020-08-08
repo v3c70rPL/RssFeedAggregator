@@ -36,7 +36,10 @@ namespace RssFeedAggregator.Managers
         }
         public async Task<T> Update(T model)
         {
-            throw new NotImplementedException();
+            var result = Repository.Update(model);
+            await Repository.SaveChangesAsync();
+
+            return result;
         }
         public async Task<T> Delete(int id)
         {
